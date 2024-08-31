@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ session['username'] }}</h2>
+        <form action="{{ url_for('home') }}" method="post">
+            <label for="Question">Ask a question:</label>
+            <input type="text" id="Question" name="Question" required>
+            <label for="Urls">Provide URLs (comma separated):</label>
+            <input type="text" id="Urls" name="Urls">
+            <button type="submit">Submit</button>
+        </form>
+        <h3>History</h3>
+        <ul>
+        {% for entry in history %}
+            <li>
+                <strong>Question:</strong> {{ entry['question'] }}<br>
+                <strong>Answer:</strong> {{ entry['answer'] }}<br>
+                {% if entry.get('source') %}
+                <strong>Source:</strong> <a href="{{ entry['source'] }}" target="_blank">{{ entry['source'] }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
